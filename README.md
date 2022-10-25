@@ -118,9 +118,9 @@ Lalu `ping google.com` dan liat hasilnya telah terkoneksi.</br>
 
 </br>
 
-Hasil Screenshot Node yang telah dibuat:
+Hasil Screenshot Node yang telah dibuat: </br>
 
-<img src="https://user-images.githubusercontent.com/70510279/197742613-e9a0134a-eee0-435f-91b0-c5024187ce93.png" alt="Gambar semua node" width="1000"/>
+<img src="https://user-images.githubusercontent.com/70510279/197742613-e9a0134a-eee0-435f-91b0-c5024187ce93.png" alt="Gambar semua node" width="800"/>
 
 </br>
 
@@ -177,6 +177,9 @@ nameserver 192.191.3.1 ; IP WISE
 
 ping wise.d13.com -c 5
 ```
+
+Sehingga hasilnya akan seperti ini </br>
+<img src="https://user-images.githubusercontent.com/70510279/197800876-15ab5b6c-9d31-40bc-beca-50c87c8c6ee5.png" alt="Ping wise.d13.com" width="500"/>
 
 ## Nomor 3
 
