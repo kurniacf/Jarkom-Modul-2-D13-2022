@@ -10,6 +10,13 @@
 
 ---
 
+## Daftar Isi
+
+- [Nomor 1](#nomor-1)
+- [Nomor 2](#nomor-2)
+
+---
+
 ## Nomor 1
 
 WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet
@@ -136,20 +143,20 @@ apt-get install bind9 -y
 ```
 nano /etc/bind/named.conf.local
 
-zone "wise.D13.com" {
+zone "wise.d13.com" {
 	type master;
-	file "/etc/bind/wise/wise.D13.com";
+	file "/etc/bind/wise/wise.d13.com";
 };
 
 mkdir /etc/bind/wise
 
-cp /etc/bind/db.local /etc/bind/wise/wise.D13.com
+cp /etc/bind/db.local /etc/bind/wise/wise.d13.com
 
-nano /etc/bind/wise/wise.D13.com
+nano /etc/bind/wise/wise.d13.com
 
 isi ini
-wise.D13.com. IN SOA wise.D13.com. root.wise.D13.com. (
-    2021102001 ; serial -> 2 ; serial
+wise.d13.com. IN SOA wise.d13.com. root.wise.d13.com. (
+    2022100601 ; serial -> 2 ; serial
     604800 ; refresh
     86400 ; retry
     2419200 ; expire
@@ -160,3 +167,17 @@ wise.D13.com. IN SOA wise.D13.com. root.wise.D13.com. (
 
 service bind9 restart
 ```
+
+### Setting Nameserver pada Client (SSS & Garden)
+
+```
+nano /etc/resolv.conf
+
+nameserver 192.191.3.1 ; IP WISE
+
+ping wise.d13.com -c 5
+```
+
+## Nomor 3
+
+Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
