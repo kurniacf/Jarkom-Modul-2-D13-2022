@@ -311,3 +311,85 @@ zone "wise.d13.com" {
 
 service bind9 restart
 ```
+
+## Nomor 6
+
+Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation
+
+### Setting Konfigurasi di Wise
+
+```
+nano /etc/bind/wise/wise.d13.com
+
+ns1 	IN  	A  	192.191.2.2 ; IP Berlint
+operation IN   	NS  ns1
+
+
+nano /etc/bind/named.conf.options
+allow-query{any;};
+
+
+nano /etc/bind/named.conf.local
+
+sesuaiin di modul
+
+service bind9 restart
+```
+
+### Setting Konfigurasi di Berlint
+
+```
+nano /etc/bind/named.conf.options
+
+allow-query{any;};
+
+nano /etc/bind/named.conf.local
+
+ganti jadi operation.wise.d13.com
+
+mkdir /etc/bind/wise
+cp /etc/bind/db.local /etc/bind/wise/operation.wise.d13.com
+
+nano /etc/bind/wise/operation.wise.d13.com
+
+operation.wise.d13.com. IN SOA operation.wise.d13.com. root.operation.wise.d13.com. (
+	2022100601 ; serial -> 2 ; serial
+	604800 ; refresh
+	86400 ; retry
+	2419200 ; expire
+	604800 ; minimum ttl
+)
+@	IN	NS	operation.wise.d13.com.
+@	IN	A 	192.191.2.2 ; IP Berlint
+
+service bind9 restart
+
+ping operation.wise.d13.com -c 5
+```
+
+## Nomor 7
+
+Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden
+
+```
+nano /etc/bind/operation/operation.wise.d13.com
+
+operation.wise.d13.com. IN SOA operation.wise.d13.com. root.operation.wise.d13.com. (
+	2022100601 ; serial -> 2 ; serial
+	604800 ; refresh
+	86400 ; retry
+	2419200 ; expire
+	604800 ; minimum ttl
+)
+@	IN	NS	operation.wise.d13.com.
+@	IN	A 	192.191.2.2 ; IP Berlint
+strix IN A  192.191.2.2 ; IP Berlint
+
+service bind9 restart
+
+ping strix.operation.wise.d13.com -c 5
+```
+
+## Nomor 8
+
+Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com
