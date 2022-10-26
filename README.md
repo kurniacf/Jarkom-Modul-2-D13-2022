@@ -127,8 +127,6 @@ Hasil Screenshot Node yang telah dibuat: </br>
 
 </br>
 
-## Nomor 2
-
 Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise
 
 ### Setting domain WISE
@@ -221,7 +219,7 @@ ping wise.d13.com -c 5
 Sehingga hasilnya akan seperti ini </br>
 <img src="https://user-images.githubusercontent.com/70510279/197800876-15ab5b6c-9d31-40bc-beca-50c87c8c6ee5.png" alt="Ping wise.d13.com" width="500"/>
 
-## Nomor 3
+## Nomor 2
 
 Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
 
@@ -245,7 +243,7 @@ ping eden.wise.d13.com -c 5
 Maka hasilnya adalah sebagai berikut : </br>
 <img src="https://user-images.githubusercontent.com/70510279/197917104-c2cccc6b-72b3-4829-8023-c1b3788ddf8f.png" alt="Ping eden.wise.d13.com" width="500"/>
 
-## Nomor 4
+## Nomor 3
 
 Buat juga reverse domain untuk domain utama
 
@@ -272,7 +270,7 @@ apt-get install dnsutils
 host -t PTR 192.191.3.2
 ```
 
-## Nomor 5
+## Nomor 4
 
 Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama
 
@@ -312,7 +310,7 @@ zone "wise.d13.com" {
 service bind9 restart
 ```
 
-## Nomor 6
+## Nomor 5
 
 Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu operation.wise.yyy.com dengan alias www.operation.wise.yyy.com yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation
 
@@ -367,7 +365,7 @@ service bind9 restart
 ping operation.wise.d13.com -c 5
 ```
 
-## Nomor 7
+## Nomor 6
 
 Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses strix.operation.wise.yyy.com dengan alias www.strix.operation.wise.yyy.com yang mengarah ke Eden
 
@@ -390,6 +388,6 @@ service bind9 restart
 ping strix.operation.wise.d13.com -c 5
 ```
 
-## Nomor 8
+## Nomor 7
 
 Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver www.wise.yyy.com. Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com
