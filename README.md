@@ -20,7 +20,7 @@
 
 ---
 
-## Nomor 1
+## Pendahuluan
 
 WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet
 
@@ -126,6 +126,8 @@ Hasil Screenshot Node yang telah dibuat: </br>
 <img src="https://user-images.githubusercontent.com/70510279/197742613-e9a0134a-eee0-435f-91b0-c5024187ce93.png" alt="Gambar semua node" width="800"/>
 
 </br>
+
+## Nomor 1
 
 Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses wise.yyy.com dengan alias www.wise.yyy.com pada folder wise
 
