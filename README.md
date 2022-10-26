@@ -14,6 +14,9 @@
 
 - [Nomor 1](#nomor-1)
 - [Nomor 2](#nomor-2)
+- [Nomor 3](#nomor-3)
+- [Nomor 4](#nomor-4)
+- [Nomor 5](#nomor-5)
 
 ---
 
@@ -87,7 +90,7 @@ iface eth0 inet static
 	gateway 192.191.2.1
 ```
 
-### Konfigurasi WISE
+### Konfigurasi WISE sebagai DNS Master
 
 ```
 auto eth0
@@ -162,8 +165,44 @@ wise.d13.com. IN SOA wise.d13.com. root.wise.d13.com. (
     2419200 ; expire
     604800 ; minimum ttl
 )
-192.191.3.1 ; IP WISE
+192.191.3.2 ; IP WISE
 
+
+service bind9 restart
+```
+
+### Konfigurasi Berlint sebagai DNS Slave
+
+Pada WISE tuliskan command berikut:
+
+```
+nano /etc/bind/named.conf.local
+
+zone "wise.d13.com" {
+    type master;
+    notify yes;
+    also-notify { 192.191.2.2; };
+    allow-transfer { 192.191.2.2; };
+    file "/etc/bind/wise/wise.d13.com";
+};
+
+service bind9 restart
+```
+
+Pada Berlint
+
+```
+apt-get update
+
+apt-get install bind9 -y
+
+nano /etc/bind/named.conf.local
+
+zone "wise.d13.com" {
+    type slave;
+    masters { 192.191.3.2; }; // Masukan IP WISE tanpa tanda petik
+    file "/var/lib/bind/wise.d13.com";
+};
 
 service bind9 restart
 ```
@@ -173,7 +212,8 @@ service bind9 restart
 ```
 nano /etc/resolv.conf
 
-nameserver 192.191.3.1 ; IP WISE
+nameserver 192.191.3.2 ; IP WISE
+nameserver 192.191.2.2 ; IP Berlint
 
 ping wise.d13.com -c 5
 ```
@@ -184,3 +224,90 @@ Sehingga hasilnya akan seperti ini </br>
 ## Nomor 3
 
 Setelah itu ia juga ingin membuat subdomain eden.wise.yyy.com dengan alias www.eden.wise.yyy.com yang diatur DNS-nya di WISE dan mengarah ke Eden
+
+### Membuat Subdomain - WISE
+
+```
+nano /etc/bind/wise/wise.d13.com
+
+tambahkan
+eden 	IN   A  192.191.2.2 ; IP Berlint
+
+service bind9 restart
+```
+
+### Test di Client
+
+```
+ping eden.wise.d13.com -c 5
+```
+
+Maka hasilnya adalah sebagai berikut : </br>
+<img src="https://user-images.githubusercontent.com/70510279/197917104-c2cccc6b-72b3-4829-8023-c1b3788ddf8f.png" alt="Ping eden.wise.d13.com" width="500"/>
+
+## Nomor 4
+
+Buat juga reverse domain untuk domain utama
+
+### Reverse Domain (Wise)
+
+```
+nano /etc/bind/named.conf.local
+
+zone "2.3.191.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/2.3.191.192.in-addr.arpa";
+};
+
+cp /etc/bind/db.local /etc/bind/wise/2.3.191.192.in-addr.arpa
+```
+
+### Dijalankan di Client (SSS & Garden)
+
+```
+apt-get update
+
+apt-get install dnsutils
+
+host -t PTR 192.191.3.2
+```
+
+## Nomor 5
+
+Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama
+
+### Konfigurasi Berlint sebagai DNS Slave (Seperti Nomor 2)
+
+Pada WISE tuliskan command berikut:
+
+```
+nano /etc/bind/named.conf.local
+
+zone "wise.d13.com" {
+    type master;
+    notify yes;
+    also-notify { 192.191.2.2; };
+    allow-transfer { 192.191.2.2; };
+    file "/etc/bind/wise/wise.d13.com";
+};
+
+service bind9 restart
+```
+
+Pada Berlint
+
+```
+apt-get update
+
+apt-get install bind9 -y
+
+nano /etc/bind/named.conf.local
+
+zone "wise.d13.com" {
+    type slave;
+    masters { 192.191.3.2; }; // Masukan IP WISE tanpa tanda petik
+    file "/var/lib/bind/wise.d13.com";
+};
+
+service bind9 restart
+```
